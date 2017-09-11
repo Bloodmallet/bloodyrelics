@@ -198,7 +198,9 @@ if len(settings.simc_settings["fight_styles"]) > 1:
   print("Calculating multiple fight styles.")
 
 ## Generating baseline damage of a profile (no trinkets)
-baseline = {"baseline": ""}
+baseline = {
+  "baseline": "",
+}
 for fight_style in settings.simc_settings["fight_styles"]:
 
   print("Loading base dps value.")
@@ -211,6 +213,10 @@ for fight_style in settings.simc_settings["fight_styles"]:
   ## simulate all crucible for this fight style
   print("Loading dps-values for all crucible traits.")
   sim_results = sim_all( crucibles, fight_style )
+
+  sim_results["+1 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results[ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 ) )
+  sim_results["+2 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results[ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 * 2 ) )
+  sim_results["+3 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results[ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 * 3 ) )
 
   ## output results
   if lib.output.output.print_manager( base_dps, sim_results, fight_style ):
