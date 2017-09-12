@@ -40,7 +40,8 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
     series_ilevel = {
       "name": 1,
       "color": settings.graph_colours[0],
-      "data": series_ilevel_data
+      "data": series_ilevel_data,
+      "showInLegend": False
     }
 
   # add dictionary to series
