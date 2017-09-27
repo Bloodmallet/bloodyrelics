@@ -46,6 +46,10 @@ def __normalise_crucibles(base_dps, sim_results):
   for crucible in sim_results:
     if not sim_results[crucible] == "0":
       sim_results[crucible] = str(int(sim_results[crucible]) - int(base_dps["baseline"]))
+
+    if int(sim_results[crucible]) < 1000:
+      sim_results[crucible] = "0"
+
   return sim_results
 
 

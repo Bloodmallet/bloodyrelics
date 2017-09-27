@@ -125,8 +125,9 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
       "bar": {
         "stacking": "normal",
         "dataLabels": {
-          "enabled": False,
-          "color": "'''(Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white''''"
+          "enabled": True,
+          "color": "'''(Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white''''",
+          "align": "right"
         },
         "point": {
           "events": {

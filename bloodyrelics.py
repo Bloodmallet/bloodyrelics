@@ -132,10 +132,10 @@ def sim_all( crucibles, fight_style ):
     
     dps = "0"
 
-    dps = get_dps( crucibles[crucible], fight_style )
+    dps = get_dps( crucible["id"], fight_style )
 
     ## add data
-    all_simmed[crucible] = dps
+    all_simmed[crucible["spell"]["name"]] = dps
     sim_counter += 1
 
     ## create fancy progress bar:
@@ -179,7 +179,7 @@ if not Wow_lib.is_spec( settings.simc_settings["spec"] ):
   error_collector.append("simc_settings[spec] not appropriate spec name")
 ## get all necessary trinkets for this class/spec at the same time
 if Wow_lib.is_class_spec( settings.simc_settings["class"], settings.simc_settings["spec"] ):
-  crucibles = Wow_lib.get_crucible_traits()
+  crucibles = Wow_lib.get_crucible_traits( settings.simc_settings["class"].title(), settings.simc_settings["spec"].title() )
 else:
   error_collector.append("simc_settings[class] and simc_settings[spec] don't fit each other")
 
@@ -198,9 +198,13 @@ if len(settings.simc_settings["fight_styles"]) > 1:
   print("Calculating multiple fight styles.")
 
 ## Generating baseline damage of a profile (no trinkets)
-baseline = {
-  "baseline": "",
-}
+baseline = [{
+  "id": "",
+  "spell": {
+    "id": "",
+    "name": "baseline"
+  }
+}]
 for fight_style in settings.simc_settings["fight_styles"]:
 
   print("Loading base dps value.")
