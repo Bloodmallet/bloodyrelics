@@ -42,6 +42,20 @@ profiles = [
   #( "warrior",      "protection",    )
 ]
 
+colours = {
+  "death_knight": "#C41F3B",
+  "demon_hunter": "#A330C9",
+  "druid": "#FF7D0A",
+  "hunter": "#ABD473",
+  "mage": "#69CCF0",
+  "monk": "#00FF96",
+  "paladin": "#F58CBA",
+  "priest": "#FFFFFF",
+  "rogue": "#FFF569",
+  "shaman": "#0070DE",
+  "warlock": "#9482C9",
+  "warrior": "#C79C6E",
+}
 
 start = datetime.datetime.utcnow()
 
@@ -50,6 +64,7 @@ for fight_style in fight_styles:
     with open("automator_input.py", "w") as ofile:
       ofile.write("graph_title = \"" + profile[0].title() + " - " + profile[1].title() + " - " + fight_style[0].title() + "\"\n")
       ofile.write("graph_subtitle = \"UTC " + start.strftime("%Y-%m-%d %H:%M") + " SimC build: " + simc_build + "\"\n")
+      ofile.write("graph_colours = [\"" + colours[profile[0]] + "\"]\n")
       ofile.write("simc_settings = {}\n")
       ofile.write("simc_settings[\"class\"] = \"" + profile[0] + "\"\n")
       ofile.write("simc_settings[\"spec\"] = \"" + profile[1] + "\"\n")
@@ -104,6 +119,7 @@ print( "Done after " + str( end - start ))
 # import automator_input
 # graph_title = automator_input.graph_title
 # graph_subtitle = automator_input.graph_subtitle
+# graph_colours = automator_input.graph_colours
 # simc_settings["class"] = automator_input.simc_settings["class"]
 # simc_settings["spec"]  = automator_input.simc_settings["spec"]
 # simc_settings["fight_styles"] = automator_input.simc_settings["fight_styles"]

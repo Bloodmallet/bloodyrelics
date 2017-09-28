@@ -31,21 +31,37 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
   series = []
 
   ## handle all normal itemlevels data for series
-  series_ilevel_data = []
+  series_light_shadow = []
+  series_artifact = []
 
   for crucible_name in ordered_crucible_names:
+    for trait_type in crucibles_list:
 
-    series_ilevel_data.append( int( crucibles_list[ crucible_name ] ) )
+      if crucible_name in crucibles_list[trait_type]:
+        if trait_type == "light and shadow":
+          series_light_shadow.append( int( crucibles_list[ trait_type ][ crucible_name ] ) )
+          series_artifact.append( 0 )
+        else:
+          series_light_shadow.append( 0 )
+          series_artifact.append( int( crucibles_list[ trait_type ][ crucible_name ] ) )
 
-    series_ilevel = {
-      "name": 1,
-      "color": settings.graph_colours[0],
-      "data": series_ilevel_data,
-      "showInLegend": False
-    }
+  series_light_shadow_values = {
+    "name": 1,
+    "color": "#343434",
+    "data": series_light_shadow,
+    "showInLegend": False
+  }
+
+  series_artifact_values = {
+    "name": 1,
+    "color": settings.graph_colours[0],
+    "data": series_artifact,
+    "showInLegend": False
+  }
 
   # add dictionary to series
-  series.append(series_ilevel)
+  series.append(series_light_shadow_values)
+  series.append(series_artifact_values)
 
 
   highcharts_data = {
@@ -70,17 +86,11 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
         "enabled": False
       },
       "stackLabels": {
-        "enabled": False,
+        "enabled": True,
         "style": {
           "fontWeight": "bold",
-          "color": "'''(Highcharts.theme && Highcharts.theme.textColor) || 'white''''" 
-        },
-        "formatter": """'''function() {
-            /* I need to figure out how to get the mean value here,
-            ** to allow the percent diff to mean as label
-            ** console.log(this); */
-            return;
-          }'''"""
+          "color": "'''(Highcharts.theme && Highcharts.theme.textColor) || 'black''''" 
+        }
       }
     },
     "legend": {
@@ -125,7 +135,7 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
       "bar": {
         "stacking": "normal",
         "dataLabels": {
-          "enabled": True,
+          "enabled": False,
           "color": "'''(Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white''''",
           "align": "right"
         },

@@ -43,12 +43,13 @@ def __create_filename(fight_style):
 ##             if the simmed itemlevel doesn't match available trinket itemlevel
 ##
 def __normalise_crucibles(base_dps, sim_results):
-  for crucible in sim_results:
-    if not sim_results[crucible] == "0":
-      sim_results[crucible] = str(int(sim_results[crucible]) - int(base_dps["baseline"]))
+  for trait_type in sim_results:
+    for crucible in sim_results[trait_type]:
+      if not sim_results[trait_type][crucible] == "0":
+        sim_results[trait_type][crucible] = str(int(sim_results[trait_type][crucible]) - int(base_dps["baseline"]))
 
-    if int(sim_results[crucible]) < 1000:
-      sim_results[crucible] = "0"
+      if int(sim_results[trait_type][crucible]) < 1000:
+        sim_results[trait_type][crucible] = "0"
 
   return sim_results
 
@@ -71,24 +72,34 @@ def __order_results(sim_results):
   name = ""
   crucible_list = []
   # gets highest dps value of all trinkets
-  for crucible in sim_results:
-    crucible_dps = sim_results[crucible]
-    if int( last_best_dps ) < int( crucible_dps ):
-      last_best_dps = crucible_dps
-      name = crucible
+  for trait_type in sim_results:
+
+    for crucible in sim_results[trait_type]:
+
+      crucible_dps = sim_results[trait_type][crucible]
+      if int( last_best_dps ) < int( crucible_dps ):
+        last_best_dps = crucible_dps
+        name = crucible
+  if settings.output_screen:
+    print("Highest value found as trait, added to list as the first: " + name)
   crucible_list.append( name )
 
-  for outerline in sim_results:
-    name = "error"
-    current_best_dps = "-1"
-    for crucible in sim_results:
-      crucible_dps = sim_results[crucible]
-      if int( current_best_dps ) < int( crucible_dps ) and int( last_best_dps ) > int( crucible_dps ):
-        current_best_dps = crucible_dps
-        name = crucible
-    if not name == "error":
-      crucible_list.append( name )
-      last_best_dps = current_best_dps
+  for outer_outerline in sim_results:
+    for outerline in sim_results[outer_outerline]:
+      name = "error"
+      current_best_dps = "-1"
+      for trait_type in sim_results:
+        for trait in sim_results[trait_type]:
+          crucible_dps = sim_results[trait_type][trait]
+          if int( current_best_dps ) <= int( crucible_dps ) and int( last_best_dps ) > int( crucible_dps ):
+            current_best_dps = crucible_dps
+            name = trait
+          elif crucible_dps == "0" and not trait in crucible_list:
+            current_best_dps = crucible_dps
+            name = trait
+      if not name == "error":
+        crucible_list.append( name )
+        last_best_dps = current_best_dps
 
   return crucible_list
 

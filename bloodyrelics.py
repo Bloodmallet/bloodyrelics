@@ -179,7 +179,13 @@ if not Wow_lib.is_spec( settings.simc_settings["spec"] ):
   error_collector.append("simc_settings[spec] not appropriate spec name")
 ## get all necessary trinkets for this class/spec at the same time
 if Wow_lib.is_class_spec( settings.simc_settings["class"], settings.simc_settings["spec"] ):
-  crucibles = Wow_lib.get_crucible_traits( settings.simc_settings["class"].title(), settings.simc_settings["spec"].title() )
+  crucibles_spec_traits = Wow_lib.get_crucible_spec_traits( settings.simc_settings["class"].title(), settings.simc_settings["spec"].title() )
+  crucible_light_shadow_traits = Wow_lib.get_crucible_light_shadow_traits()
+  if settings.output_screen:
+    print("Artifact traits: ")
+    print(crucibles_spec_traits)
+    print("Light and Shadow traits:")
+    print(crucible_light_shadow_traits)
 else:
   error_collector.append("simc_settings[class] and simc_settings[spec] don't fit each other")
 
@@ -213,14 +219,25 @@ for fight_style in settings.simc_settings["fight_styles"]:
   if settings.output_screen:
     print( base_dps )
 
+  sim_results = {}
+
   print("")
   ## simulate all crucible for this fight style
-  print("Loading dps-values for all crucible traits.")
-  sim_results = sim_all( crucibles, fight_style )
+  print("Loading dps-values for light and shadow crucible traits.")
+  sim_results["light and shadow"] = sim_all( crucible_light_shadow_traits, fight_style )
 
-  sim_results["+1 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results[ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 ) )
-  sim_results["+2 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results[ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 * 2 ) )
-  sim_results["+3 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results[ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 * 3 ) )
+  print()
+  print("Loading dps-values for artifact traits.")
+  sim_results["artifact"] = sim_all( crucibles_spec_traits, fight_style )
+
+  if settings.output_screen:
+    print()
+    print( "Data of all simulations:" )
+    print( sim_results )
+
+  sim_results["light and shadow"]["+1 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results["light and shadow"][ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 ) )
+  sim_results["light and shadow"]["+2 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results["light and shadow"][ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 * 2 ) )
+  sim_results["light and shadow"]["+3 itemlevel"] = str( int( int( base_dps[ "baseline" ] ) + ( int( sim_results["light and shadow"][ "+5 itemlevel" ] ) - int( base_dps[ "baseline" ] ) ) / 5 * 3 ) )
 
   ## output results
   if lib.output.output.print_manager( base_dps, sim_results, fight_style ):
