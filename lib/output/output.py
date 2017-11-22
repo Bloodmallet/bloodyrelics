@@ -1,7 +1,8 @@
 ## File to manage outputs
- 
+
 
 ## Library needed to get date and calculationtime for program
+import lib.output.crucible_weights as crucible_weights
 import lib.output.highcharts as highcharts
 import lib.output.json_print as json
 import settings
@@ -30,13 +31,12 @@ def __create_filename(fight_style):
 ## @brief      Reduces trinket dps to the actual gain those trinkets provide in
 ##             comparison to the baseline dps.
 ##
+## @param      base_dps     Dictionary of the base-profile without crucible
+##                          values as strings {trinket_name s:{ilevel s:{dps
+##                          s}}}.
 ## @param      sim_results  Dictionary of all simmed trinkets with all their dps
 ##                          values as strings {trinket_name s:{ilevel s:{dps
 ##                          s}}}.
-## @param      base_dps     Dictionary of the base-profile without trinkets
-##                          values as strings {trinket_name s:{ilevel s:{dps
-##                          s}}}.
-## @param      base_ilevel  The base ilevel
 ##
 ## @return     Dictionary of all simmed trinkets with all their normalised dps
 ##             values as strings {trinket_name s:{ilevel s:{dps s}}}. dps is "0"
@@ -130,14 +130,19 @@ def print_manager(base_dps_dict, sim_results, fight_style):
         print(ordered_crucible_names)
 
       print("Normalising dps values.")
-      sim_results = __normalise_crucibles(base_dps_dict, sim_results)
+      normalised_sim_results = __normalise_crucibles(base_dps_dict, sim_results)
 
       if settings.output_screen:
-        print(sim_results)
+        print(normalised_sim_results)
 
-      if highcharts.print_highchart(sim_results, ordered_crucible_names, filename):
+      if highcharts.print_highchart(normalised_sim_results, ordered_crucible_names, filename):
         print("Generating highchart file: Done")
       else:
         print("Generating highchart file: Failed")
+
+      if crucible_weights.print_crucibles(normalised_sim_results, filename):
+        print("Generating crucible weights file: Done")
+      else:
+        print("Generating crucible weights file: Failed")
   print("")
   return True
