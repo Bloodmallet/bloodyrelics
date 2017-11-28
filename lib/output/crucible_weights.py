@@ -45,7 +45,7 @@ def print_crucibles( crucibles_list, filename ):
 
 
   # write raw file
-  with open(filename + "_weight.html", "w") as ofile:
+  with open(filename + "_weight.txt", "w") as ofile:
     ofile.write(crucible_string)
 
   return True
