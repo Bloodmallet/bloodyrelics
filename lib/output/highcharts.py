@@ -20,12 +20,29 @@ import settings
 ##                                    and convert that into json itself.
 ##
 ## @return     True if writing to file was successfull
-##  
+##
 def print_highchart( crucibles_list, ordered_crucible_names, filename ):
 
   categories = []
   for name in ordered_crucible_names:
     categories.append( name )
+
+  # massage category names into wowhead links
+  if settings.add_tooltips:
+    new_categories_list = []
+
+    import lib.simc_support.wow_lib as Wow_lib
+
+    for i in range( len( categories ) ):
+      trait_id = ""
+      try:
+        trait_id = Wow_lib.get_crucible_spell_id( settings.simc_settings[ "class" ], settings.simc_settings[ "spec" ], categories[ i ] )
+      except Exception as e:
+        pass
+        #raise e
+      else:
+        # if a trait spell ID was found, replace the category name with the link
+        categories[ i ] = "<a href=\"http://www.wowhead.com/item={item_id}\">{item_name}</a>".format( item_id=trait_id, item_name=categories[ i ] )
 
   # data handle for all series
   series = []
@@ -69,13 +86,18 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
       "type": "bar"
     },
     "title": {
-      "text": settings.graph_title
+      "text": settings.graph_title,
+      "useHTML": True
     },
     "subtitle": {
-      "text": settings.graph_subtitle
+      "text": settings.graph_subtitle,
+      "useHTML": True
     },
     "xAxis": {
-      "categories": categories
+      "categories": categories,
+      "labels": {
+        "useHTML": True,
+      },
     },
     "yAxis": {
       "min": 0,
@@ -89,8 +111,11 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
         "enabled": True,
         "style": {
           "fontWeight": "bold",
-          "color": "'''(Highcharts.theme && Highcharts.theme.textColor) || 'black''''" 
-        }
+          "color": "'''(Highcharts.theme && Highcharts.theme.textColor) || 'black''''"
+        },
+        "formatter": """'''function() {
+          return Intl.NumberFormat().format(this.total);
+        }'''""",
       }
     },
     "legend": {
@@ -113,7 +138,7 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
         for (var i = this.points.length - 1 ; i >= 0 ; i--) {
             cumulative_amount += this.points[i].y;
             if (this.points[i].y !== 0){
-                s += '<br/><span style=\"color: ' + this.points[i].series.color + '; font-weight: bold;\">' + this.points[i].series.name +'</span>: ' + cumulative_amount;
+                s += '<br/><span style=\"color: ' + this.points[i].series.color + '; font-weight: bold;\">' + this.points[i].series.name +'</span>: ' + Intl.NumberFormat().format(cumulative_amount);
             }
         }
         return s;
@@ -171,7 +196,7 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
     ofile.write("Highcharts.chart('" + filename[10:] + "', \n")
     json.dump(highcharts_data, ofile, indent=4, sort_keys=True)
     ofile.write(");")
-  
+
   # create result file without quotes in inappropriate places
   with open(filename + "_raw.js", "r") as old:
     with open(filename + ".js", "w") as new:
