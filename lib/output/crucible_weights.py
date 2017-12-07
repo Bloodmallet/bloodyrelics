@@ -48,7 +48,7 @@ def print_crucibles( crucibles_list, filename ):
 
       if cr_id:
         # normalize value to ilevel dmg increase
-        cr_value = str( int( crucibles_list[ cr_type ][ crucible ] ) / ilevel_dps )
+        cr_value = str( round( int( crucibles_list[ cr_type ][ crucible ] ) / ilevel_dps, 2 ) )
         crucible_string += cr_id + "^" + cr_value + "^"
 
   crucible_string += "end"

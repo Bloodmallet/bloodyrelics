@@ -42,7 +42,7 @@ def print_highchart( crucibles_list, ordered_crucible_names, filename ):
         #raise e
       else:
         # if a trait spell ID was found, replace the category name with the link
-        categories[ i ] = "<a href=\"http://www.wowhead.com/item={item_id}\">{item_name}</a>".format( item_id=trait_id, item_name=categories[ i ] )
+        categories[ i ] = "<a href=\"http://www.wowhead.com/spell={item_id}\">{item_name}</a>".format( item_id=trait_id, item_name=categories[ i ] )
 
   # data handle for all series
   series = []
