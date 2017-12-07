@@ -4,13 +4,13 @@ import sys
 
 simc_build = "<a href=\\\"https://github.com/simulationcraft/simc/commit/c56773bf9e4845bb68b68dccb8ce6015ee67375a\\\" target=\\\"blank\\\">c56773b</a>"
 
-fight_styles = [ 
-  ( "patchwerk", "0.08" ), 
-  ( "beastlord", "0.2" ) 
+fight_styles = [
+  ( "patchwerk", "0.08" ),
+  ( "beastlord", "0.2" )
 ]
 
 profiles = [
-  #( "death_knight", "blood",         ),
+  ( "death_knight", "blood",         ),
   ( "death_knight", "frost",         ),
   ( "death_knight", "unholy",        ),
   ( "demon_hunter", "havoc",         ),
@@ -24,9 +24,9 @@ profiles = [
   ( "mage",         "arcane",        ),
   ( "mage",         "fire",          ),
   ( "mage",         "frost",         ),
-  #( "monk",         "brewmaster",    ),
+  ( "monk",         "brewmaster",    ),
   ( "monk",         "windwalker",    ),
-  #( "paladin",      "protection",    ),
+  ( "paladin",      "protection",    ),
   ( "paladin",      "retribution",   ),
   ( "priest",       "shadow",        ),
   ( "rogue",        "assassination", ),
@@ -80,35 +80,35 @@ for fight_style in fight_styles:
       startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
       result = subprocess.run(
-        command, 
-        stdout=None, 
-        stderr=subprocess.STDOUT, 
-        universal_newlines=True, 
+        command,
+        stdout=None,
+        stderr=subprocess.STDOUT,
+        universal_newlines=True,
         startupinfo=startupinfo
       )
       while result.returncode != 0:
         print(result)
         print("I keep trying")
         result = subprocess.run(
-          command, 
-          stdout=None, 
-          stderr=subprocess.STDOUT, 
+          command,
+          stdout=None,
+          stderr=subprocess.STDOUT,
           universal_newlines=True,
           startupinfo=startupinfo
         )
 
     else:
       result = subprocess.run(
-        command, 
-        stdout=None, 
-        stderr=subprocess.STDOUT, 
+        command,
+        stdout=None,
+        stderr=subprocess.STDOUT,
         universal_newlines=True
       )
       while result.returncode != 0:
         result = subprocess.run(
-          command, 
-          stdout=None, 
-          stderr=subprocess.STDOUT, 
+          command,
+          stdout=None,
+          stderr=subprocess.STDOUT,
           universal_newlines=True
         )
 end = datetime.datetime.utcnow()

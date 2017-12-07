@@ -1,5 +1,5 @@
 ## File contains all settings for
-## Bloodytrinkets
+## Bloody( relics )
 ##
 
 import datetime
@@ -13,15 +13,15 @@ graph_colours = [
 
 output_screen = False
 # "json", "highchart"
-output_types = ["json", "highchart"]
+output_types = ["highchart"]
 
 simc_settings = {}
 simc_settings["simc"]         = "../simc.exe"
-simc_settings["fight_styles"] = ["patchwerk", "helterskelter"]
+simc_settings["fight_styles"] = ["patchwerk"]
 simc_settings["iterations"]   = "250000"
 simc_settings["target_error"] = "0.08"
 simc_settings["threads"]      = ""
-simc_settings["tier"]         = "T20"
+simc_settings["tier"]         = "T21"
 
 graph_title = "Shaman - Elemental - Patchwerk"
 graph_subtitle = "UTC " + datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M") + " SimC build: " + simc_build

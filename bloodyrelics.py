@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Project to automate trinket sims for dps specs
+# Project to automate relic sims for world of warcraft specs
 
 # params
 #import argparse
