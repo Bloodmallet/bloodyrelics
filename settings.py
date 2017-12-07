@@ -36,3 +36,5 @@ simc_settings["c_profile_path"] = "example_dir/"
 simc_settings["c_profile_name"] = "example_name.simc"
 
 simc_settings["ptr"] = False
+
+add_tooltips = True

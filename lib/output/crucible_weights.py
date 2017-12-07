@@ -22,6 +22,15 @@ def print_crucibles( crucibles_list, filename ):
   crucible_string = "cruweight^"
   crucible_string += wow_lib.get_weapon_id( settings.simc_settings[ "class" ], settings.simc_settings[ "spec" ] ) + "^"
 
+  # find +1 ilevel dps value
+  try:
+    ilevel_dps = int( crucibles_list["light and shadow"]["+1 itemlevel"] )
+  except Exception as e:
+    ilevel_dps = 1
+    # log this if a logger is added later
+    #raise e
+
+
   for cr_type in crucibles_list:
     for crucible in crucibles_list[ cr_type ]:
       cr_id = False
@@ -38,7 +47,8 @@ def print_crucibles( crucibles_list, filename ):
         cr_id = wow_lib.get_crucible_spell_id( settings.simc_settings[ "class" ], settings.simc_settings[ "spec" ], crucible )
 
       if cr_id:
-        cr_value = crucibles_list[ cr_type ][ crucible ]
+        # normalize value to ilevel dmg increase
+        cr_value = str( int( crucibles_list[ cr_type ][ crucible ] ) / ilevel_dps )
         crucible_string += cr_id + "^" + cr_value + "^"
 
   crucible_string += "end"
