@@ -3,7 +3,7 @@
 import datetime
 # Library to look for files and create them if needed
 import settings
-import lib.simc_support.wow_lib as wow_lib
+from simc_support import wow_lib as wow_lib
 
 # cruweight^128826^190462^2.5^252191^2.75^190567^0^252207^0^252091^3.25^238052^2.75^190514^0^253111^0^ilvl^1^252875^3.75^190529^3.1^190449^2^190520^0.7^252922^1.75^190457^0.7^190503^0^190467^0.1^253093^3.5^252906^4^253070^3.75^252888^3.25^252799^3.75^252088^3.25^end
 

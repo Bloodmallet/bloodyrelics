@@ -72,6 +72,7 @@ for fight_style in fight_styles:
       ofile.write("simc_settings[\"target_error\"] = \"" + fight_style[1] + "\"\n")
 
     print("")
+    print(datetime.datetime.utcnow())
 
     command = "python bloodyrelics.py"
     if sys.platform == 'win32':

@@ -10,8 +10,11 @@ import settings
 import sys
 # Bloodytrinkets lib imports
 import lib.output.output
-import lib.simc_support.simc_checks as Simc_checks
-import lib.simc_support.wow_lib     as Wow_lib
+
+# basic simc input checks
+from simc_support import simc_checks as Simc_checks
+# some wow ingame data necessary for the profile generation
+from simc_support import wow_lib     as Wow_lib
 
 
 
