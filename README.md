@@ -1,6 +1,8 @@
 Bloodyrelics
 ===========
 
+# This tool is depricated with the launch of the Battle for Azeroth Prepatch. See [bloodytools](https://github.com/Bloodmallet/bloodytools) for an improved and continued tool.
+
 > Automatation tool to calculate the worth of all artifact dps traits of all classes in World of Warcraft using SimulationCraft.
 
 ## Requirements
